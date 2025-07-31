@@ -1,21 +1,32 @@
 const series = [
   {
     id: 1,
-    titulo: "Serie 1",
-    descripcion: "Una serie emocionante llena de acción.",
-    imagen: "https://picsum.photos/id/1011/200/300", // imagen válida
+    titulo: "The Last Kingdom",
+    imagen: "/imagenes/Last-kingdom.png",
+    descripcion:
+      "Una serie épica de batallas y política en la Inglaterra medieval.",
+    likes: 3,
+    votosTotales: 4,
+    trailer: "https://www.youtube.com/embed/WxPApTGWwas",
   },
   {
     id: 2,
-    titulo: "Serie 2",
-    descripcion: "Drama y emoción en cada episodio.",
-    imagen: "https://picsum.photos/id/1015/200/300",
+    titulo: "Stranger Things",
+    imagen: "/imagenes/stranger-things.jpg",
+    descripcion:
+      "Un grupo de niños descubre secretos sobrenaturales en su ciudad.",
+    likes: 5,
+    votosTotales: 6,
+    trailer: "https://www.youtube.com/embed/mnd7sFt5c3A",
   },
   {
     id: 3,
-    titulo: "Serie 3",
-    descripcion: "Una comedia para toda la familia.",
-    imagen: "https://picsum.photos/id/1016/200/300",
+    titulo: "Dark",
+    imagen: "/imagenes/dark.jpg",
+    descripcion: "Un misterio de viajes en el tiempo que desafía la lógica.",
+    likes: 4,
+    votosTotales: 5,
+    trailer: "https://www.youtube.com/embed/ESEUoa-mz2c",
   },
 ];
 

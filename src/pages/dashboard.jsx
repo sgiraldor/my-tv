@@ -1,39 +1,66 @@
-// src/pages/dashboard.jsx
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import series from "../data/series";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
+  const usuario = localStorage.getItem("usuario");
   const navigate = useNavigate();
 
-  // Verifica si el usuario está autenticado
   useEffect(() => {
-    const usuario = localStorage.getItem("usuario");
     if (!usuario) {
-      alert("Debes iniciar sesión para ver esta página.");
       navigate("/login");
     }
-  }, [navigate]);
-
-  const cerrarSesion = () => {
-    localStorage.removeItem("usuario");
-    alert("Sesión cerrada.");
-    navigate("/");
-  };
+  }, [usuario, navigate]);
 
   return (
-    <div>
-      <h2>Bienvenido a My-TV</h2>
-      <button onClick={cerrarSesion}>Cerrar sesión</button>
-      <p>Explora nuestras series:</p>
+    <div style={{ padding: "30px", textAlign: "center" }}>
+      <h2 style={{ color: "#b6ffb6", fontSize: "28px", marginBottom: "10px" }}>
+        Bienvenido a My-TV
+      </h2>
+      <h3
+        style={{ color: "white", marginBottom: "30px", fontWeight: "normal" }}
+      >
+        Explora nuestras series:
+      </h3>
 
-      <div className="card-container">
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "30px",
+        }}
+      >
         {series.map((serie) => (
-          <div key={serie.id} className="card">
-            <img src={serie.imagen} alt={serie.titulo} />
-            <h4>{serie.titulo}</h4>
-            <p style={{ fontSize: "14px" }}>{serie.descripcion}</p>
-          </div>
+          <Link
+            to={`/detalle/${serie.id}`}
+            key={serie.id}
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            <div
+              style={{
+                backgroundColor: "#1a1a1a",
+                borderRadius: "10px",
+                padding: "15px",
+                width: "200px",
+                boxShadow: "0 0 15px green",
+                transition: "transform 0.2s",
+              }}
+            >
+              <img
+                src={serie.imagen}
+                alt={serie.titulo}
+                style={{ width: "100%", borderRadius: "5px" }}
+              />
+              <h4 style={{ marginTop: "10px", color: "#b6ffb6" }}>
+                {serie.titulo}
+              </h4>
+              <p style={{ fontSize: "14px", marginTop: "5px" }}>
+                {serie.descripcion}
+              </p>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
