@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -10,89 +10,105 @@ function Login() {
   const manejarLogin = (e) => {
     e.preventDefault();
 
-    // Obtener datos registrados (simulación con localStorage)
-    const usuarioRegistrado = JSON.parse(localStorage.getItem("usuario"));
+    const usuarioGuardado = localStorage.getItem(email);
 
-    if (
-      usuarioRegistrado &&
-      usuarioRegistrado.email === email &&
-      usuarioRegistrado.password === password
-    ) {
-      alert("Inicio de sesión exitoso");
-      navigate("/dashboard"); // o la ruta que desees
-    } else {
-      alert("Correo o contraseña incorrectos");
+    if (!usuarioGuardado) {
+      toast.error("Usuario no encontrado");
+      return;
     }
+
+    const datos = JSON.parse(usuarioGuardado);
+
+    if (datos.password !== password) {
+      toast.error("Contraseña incorrecta");
+      return;
+    }
+
+    // Guardar sesión activa
+    localStorage.setItem("usuario", email);
+    toast.success("Inicio de sesión exitoso");
+
+    // Redireccionar al dashboard después de un pequeño retraso
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 1000);
   };
 
   return (
     <div
       style={{
-        backgroundColor: "#111",
-        height: "100vh",
         display: "flex",
-        alignItems: "center",
         justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        backgroundColor: "#111",
       }}
     >
-      <div
+      <form
+        onSubmit={manejarLogin}
         style={{
-          backgroundColor: "#1c1c1c",
+          backgroundColor: "#1e1e1e",
           padding: "30px",
           borderRadius: "10px",
-          width: "350px",
-          textAlign: "center",
+          boxShadow: "0 0 15px green",
+          width: "300px",
         }}
       >
-        <img
-          src={logo}
-          alt="logo"
-          style={{ height: "40px", marginBottom: "15px" }}
+        <h2
+          style={{
+            color: "#b6ffb6",
+            textAlign: "center",
+            marginBottom: "20px",
+          }}
+        >
+          Iniciar Sesión
+        </h2>
+
+        <input
+          type="email"
+          placeholder="Correo"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "5px",
+            border: "none",
+          }}
         />
-        <h2 style={{ color: "#fff", marginBottom: "20px" }}>Iniciar sesión</h2>
-        <form onSubmit={manejarLogin}>
-          <input
-            type="email"
-            placeholder="Correo"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginBottom: "10px",
-              borderRadius: "5px",
-            }}
-          />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginBottom: "15px",
-              borderRadius: "5px",
-            }}
-          />
-          <button
-            type="submit"
-            style={{
-              backgroundColor: "#008000",
-              color: "white",
-              padding: "10px 20px",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              width: "100%",
-            }}
-          >
-            Ingresar
-          </button>
-        </form>
-      </div>
+
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "20px",
+            borderRadius: "5px",
+            border: "none",
+          }}
+        />
+
+        <button
+          type="submit"
+          style={{
+            width: "100%",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            padding: "10px",
+            borderRadius: "5px",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Ingresar
+        </button>
+      </form>
     </div>
   );
 }
